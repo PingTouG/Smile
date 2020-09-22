@@ -1,0 +1,9 @@
+{
+  "name": "smile-minapp-wechat",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@vant/weapp": "^1.5.0"
+  },
+  "devDependencies": {}
+}

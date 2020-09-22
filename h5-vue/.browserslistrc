@@ -1,0 +1,7 @@
+# > 1%
+# last 2 versions
+# not dead
+
+# 兼容移动端浏览器
+Android >= 4.0
+iOS >= 8
