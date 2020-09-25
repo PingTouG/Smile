@@ -11,9 +11,6 @@
 <script setup>
 import { ref } from 'vue'
 import Tabbar from './components/TheTabbar'
-export { tabbarList } from '@/router/routes'
-
-export const activeTabbar = ref('Home')
 
 export default {
   name: 'BasisLayout',
@@ -21,4 +18,8 @@ export default {
     Tabbar
   }
 }
+
+export { tabbarList } from '@/router/routes'
+
+export const activeTabbar = ref('Home')
 </script>
