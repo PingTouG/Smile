@@ -1,4 +1,15 @@
-import { Tabbar, TabbarItem, Search, Swipe, SwipeItem, Image, Icon } from 'vant'
+import {
+  Tabbar,
+  TabbarItem,
+  Search,
+  Swipe,
+  SwipeItem,
+  Image,
+  Icon,
+  CountDown,
+  Sticky,
+  Tag
+} from 'vant'
 
 export default app => {
   app.use(Tabbar)
@@ -8,4 +19,7 @@ export default app => {
   app.use(SwipeItem)
   app.use(Image)
   app.use(Icon)
+  app.use(CountDown)
+  app.use(Sticky)
+  app.use(Tag)
 }
