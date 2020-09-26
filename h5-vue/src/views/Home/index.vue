@@ -1,26 +1,28 @@
 <template>
   <section class="page">
     <header class="header">
-      <div class="header__location">
-        <van-icon name="location-o" />
-        <div class="header__location-text">
-          中国
+      <van-sticky>
+        <div class="header__top">
+          <div class="header__location">
+            <van-icon name="location-o" />
+            <div class="header__location-text">
+              中国
+            </div>
+          </div>
+          <div class="header__search">
+            <van-search
+              placeholder="请输入搜索关键词"
+              input-align="center"
+              background="#1989fa"
+              shape="round"
+              readonly
+            />
+          </div>
+          <div class="header__message header__message--active">
+            <van-icon name="envelop-o" size="24" />
+          </div>
         </div>
-      </div>
-      <div class="header__search">
-        <van-search
-          placeholder="请输入搜索关键词"
-          input-align="center"
-          background="#1989fa"
-          shape="round"
-          readonly
-        />
-      </div>
-      <div class="header__message header__message--active">
-        <van-icon name="envelop-o" size="24" />
-      </div>
-    </header>
-    <main>
+      </van-sticky>
       <div class="swiper">
         <van-swipe :autoplay="3000">
           <van-swipe-item
@@ -40,7 +42,79 @@
           :text="quick.text"
         />
       </div>
-      <s-gap />
+    </header>
+
+    <s-gap class="gap" />
+    <main>
+      <s-card bg-color="#fff" class="seckill">
+        <template #title>
+          <div class="seckill__title">
+            <van-icon name="clock-o" color="#ee0a24" size="24" />
+            <div class="seckill__title-container">
+              <div class="seckill__title-text">限时秒杀</div>
+              <div class="seckill__time">
+                <div class="seckill__time-room">
+                  10点场次
+                </div>
+                <van-count-down class="seckill__time-count" :time="time" />
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="seckill__list">
+          <div
+            class="seckill__item"
+            v-for="seckillItem in state.seckillList"
+            :key="seckillItem.id"
+          >
+            <van-image
+              class="seckill__item-img"
+              radius="4"
+              fit="cover"
+              :src="seckillItem.thumbnail"
+            />
+            <div class="seckill__price">￥{{ seckillItem.price }}</div>
+            <div class="seckill__original-price">
+              ￥{{ seckillItem.originalPrice }}
+            </div>
+          </div>
+        </div>
+      </s-card>
+      <s-gap class="gap" />
+      <s-card bg-color="#fff" class="activity" :is-more="false">
+        <template #title>
+          <div class="activity__header">
+            <van-icon name="gift" color="#ed6a0c" size="24" />
+            <div class="activity__title">活动专区</div>
+          </div>
+        </template>
+        <div class="activity__list">
+          <van-image
+            class="activity__item"
+            radius="4"
+            v-for="image in state.activityList"
+            :key="image"
+            :src="image"
+          />
+        </div>
+      </s-card>
+      <s-gap class="gap" />
+      <div class="recommend">
+        <div class="recommend__header">
+          <div class="recommend__title">每日推荐</div>
+        </div>
+        <div class="recommend__list">
+          <s-product-card
+            class="recommend__item"
+            v-for="product in state.recommendList"
+            :key="product.id"
+            :name="product.name"
+            :tags="product.tags"
+            :thumbnail="product.thumbnail"
+            :price="product.price"
+          />
+        </div>
+      </div>
     </main>
   </section>
 </template>
@@ -48,13 +122,17 @@
 <script setup>
 import SIconTag from '@/components/SIconTag'
 import SGap from '@/components/SGap'
-import { reactive } from 'vue'
+import SCard from '@/components/SCard'
+import SProductCard from '@/components/SProductCard'
+import { computed, reactive, ref } from 'vue'
 
 export default {
   name: 'HomePage',
   components: {
     SIconTag,
-    SGap
+    SGap,
+    SCard,
+    SProductCard
   }
 }
 
@@ -115,27 +193,134 @@ const quickList = [
     text: 'PLUS会员'
   }
 ]
+const seckillList = [
+  {
+    id: 22,
+    originalPrice: 125,
+    price: 85,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/89098/29/17891/340126/5e8bddcaEb6c2ba10/ff232054676776de.jpg.dpg'
+  },
+  {
+    id: 23,
+    originalPrice: 55,
+    price: 20,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/128726/5/5140/68963/5eeb8a39E1b9d35a0/ef5fa3b679e37828.jpg.dpg'
+  },
+  {
+    id: 24,
+    originalPrice: 75,
+    price: 35,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/151519/35/704/171412/5f6caef8E0135b4c7/fbde246242c6bc33.jpg.dpg'
+  },
+  {
+    id: 25,
+    originalPrice: 50,
+    price: 25,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/111909/17/18810/169647/5f6c49ceEc8c06b3d/b905417ea52717cc.jpg.dpg'
+  },
+  {
+    id: 26,
+    originalPrice: 50,
+    price: 25,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/111909/17/18810/169647/5f6c49ceEc8c06b3d/b905417ea52717cc.jpg.dpg'
+  },
+  {
+    id: 27,
+    originalPrice: 50,
+    price: 25,
+    thumbnail:
+      '//img10.360buyimg.com/n7/s150x150_jfs/t1/111909/17/18810/169647/5f6c49ceEc8c06b3d/b905417ea52717cc.jpg.dpg'
+  }
+]
+const activityList = [
+  '//m.360buyimg.com/mobilecms/s376x240_jfs/t1/49601/16/12206/115887/5d91b4d5E34709952/aba2bcb4855e6e52.png!q70.jpg.dpg',
+  '//m.360buyimg.com/mobilecms/s376x240_jfs/t1/32449/33/15631/174497/5cc2d86bE0289110c/9c53e25651659d43.png!q70.jpg.dpg',
+  '//m.360buyimg.com/mobilecms/s376x240_jfs/t1/32449/33/15631/174497/5cc2d86bE0289110c/9c53e25651659d43.png!q70.jpg.dpg',
+  '//m.360buyimg.com/mobilecms/s376x240_jfs/t1/49601/16/12206/115887/5d91b4d5E34709952/aba2bcb4855e6e52.png!q70.jpg.dpg'
+]
+const recommendList = [
+  {
+    id: 31,
+    price: 85,
+    tags: ['满减', '限时秒杀'],
+    name:
+      '子牧棉麻秋季冬新款 女韩版衬衫领ins分娃娃领减龄修身毛衣长袖针织衫0860 5300红色 均码',
+    thumbnail:
+      '//img14.360buyimg.com/mobilecms/s372x372_jfs/t1/42276/21/15101/95949/5d7f484fE281524c5/faf666685f8f4403.jpg!q70.dpg.webp'
+  },
+  {
+    id: 33,
+    price: 169,
+    name:
+      '美的（Midea）电磁炉 触控按键 一键爆炒 电磁灶微晶面板 六大烹饪功能  定时功能 C21-RT2140（赠渗氮炒锅）',
+    thumbnail:
+      '//img12.360buyimg.com/mobilecms/s372x372_jfs/t1/138926/27/8050/135075/5f58ad0cEf0d3f852/7a2d6e9a5c3beb37.jpg!q70.dpg.webp'
+  },
+  {
+    id: 33,
+    price: 35,
+    tags: ['满减', '限时秒杀', '赠劵', '新人特惠'],
+    name:
+      '米家 小米电磁炉 99档微调控火 低温烹饪技术 火锅炒菜蒸煮煎炸汤粥5大模式 可定时',
+    thumbnail:
+      '//img14.360buyimg.com/mobilecms/s372x372_jfs/t1/130583/12/1346/97778/5ed85df4Ebea5c892/ba6276c0e5bc239c.jpg!q70.dpg.webp'
+  },
+  {
+    id: 34,
+    price: 25,
+    name:
+      '享趣 折叠躺椅懒人沙发家用午休午睡床多功能办公室靠背沙滩单人靠椅子40扁管多功能折叠床配厚垫',
+    thumbnail:
+      '//img10.360buyimg.com/mobilecms/s372x372_jfs/t1/116585/37/9831/230812/5edf1661E64e143f9/6c16079142f76134.jpg!q70.dpg.webp'
+  },
+  {
+    id: 35,
+    name:
+      '新日（Sunra）电动自行车新国标代驾折叠锂电池小型成人男女迷你单车助力电瓶车 标准版炫酷黑 定制汽车电芯 助力60公里',
+    price: 25,
+    thumbnail:
+      '//img13.360buyimg.com/mobilecms/s372x372_jfs/t1/119230/16/18605/170558/5f6d9d2cEcf0d7708/dc6e7e2cd2e234cf.jpg!q70.dpg.webp'
+  }
+]
 
 export const state = reactive({
   swiperList,
-  quickList
+  quickList,
+  seckillList,
+  activityList,
+  recommendList
 })
+export const activityHeight = '200px'
+export const activityRow = 2
+export const activityColumn = computed(() =>
+  parseInt(activityList.length / activityRow)
+)
+export const time = ref(12000000)
 </script>
 
-<style lang="less" scoped>
+<style
+  lang="less"
+  vars="{ activityHeight, activityRow, activityColumn }"
+  scoped
+>
 @import '~@/utils/vant/var';
 
-.page {
-  padding-bottom: @tabbar-height;
-}
-
 .header {
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  background-color: @primary;
-  color: #fff;
+  background-color: #fff;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 12px;
+    background-color: @primary;
+    color: #fff;
+  }
 
   &__location {
     display: flex;
@@ -193,22 +378,165 @@ export const state = reactive({
 .quick {
   padding: 4px 12px;
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(5, 20%);
+  grid-template-rows: repeat(2, auto);
 
   &__item {
     padding: 4px 0;
   }
 }
 
-.activity {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-flow: wrap;
+.seckill,
+.activity,
+.recommend {
+  width: calc(100% - 24px);
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.seckill {
+  &__title {
+    display: flex;
+    align-items: center;
+    color: @red;
+
+    &-container {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    &-text {
+      margin: 0 0 0 4px;
+    }
+  }
+
+  &__time {
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+    border: 1px solid @red;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+
+    &-room {
+      display: flex;
+      align-items: center;
+      align-self: stretch;
+      color: #fff;
+      background-color: @red;
+      border-radius: 20px;
+      padding: 0 4px;
+    }
+
+    &-count {
+      color: @red;
+      padding: 0 8px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    overflow-y: auto;
+    padding-bottom: 2px;
+  }
 
   &__item {
-    width: 49%;
+    text-align: center;
+    margin-left: 8px;
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &-img {
+      height: 80px;
+      width: 80px;
+    }
+  }
+
+  &__price {
+    color: @red;
+    font-weight: 700;
+  }
+
+  &__original-price {
+    font-size: 10px;
+    text-decoration: line-through;
+    color: @info;
+  }
+}
+
+.activity {
+  &__title {
+    color: @orange-dark;
+    margin: 0 0 0 4px;
+  }
+
+  &__list {
+    height: var(--activityHeight);
+    display: grid;
+    grid-template-columns: repeat(
+      var(--activityColumn),
+      calc(100% / var(--activityColumn))
+    );
+    grid-template-rows: repeat(var(--activityRow), auto);
+    column-gap: 1%;
+    row-gap: 1%;
+  }
+}
+
+.recommend {
+  &__header {
+    padding: 12px;
+    justify-content: center;
+    background-color: #fff;
+  }
+
+  &__title {
+    color: @orange-dark;
+    margin: 0;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 700;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 35px;
+      height: 20px;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+      border-top: 3px solid @orange;
+      border-left: 3px solid @orange;
+      border-top-left-radius: 4px;
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: 3px solid @orange;
+      border-right: 3px solid @orange;
+      border-bottom-right-radius: 4px;
+    }
+  }
+
+  &__list {
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 48%);
+    column-gap: 10px;
+    row-gap: 10px;
   }
 }
 </style>
