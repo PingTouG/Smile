@@ -7,7 +7,6 @@
         :src="thumbnail"
         :radius="thumbnailRadius"
       />
-      <span class="s-product-card__type" v-if="type">{{ type }}</span>
     </div>
     <div
       :class="['s-product-card__main', `s-product-card__main--${direction}`]"
