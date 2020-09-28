@@ -8,7 +8,9 @@ import {
   Icon,
   CountDown,
   Sticky,
-  Tag
+  Tag,
+  Grid,
+  GridItem
 } from 'vant'
 
 export default app => {
@@ -22,4 +24,6 @@ export default app => {
   app.use(CountDown)
   app.use(Sticky)
   app.use(Tag)
+  app.use(Grid)
+  app.use(GridItem)
 }

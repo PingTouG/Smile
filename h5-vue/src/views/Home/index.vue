@@ -33,15 +33,14 @@
           </van-swipe-item>
         </van-swipe>
       </div>
-      <div class="quick">
-        <s-icon-tag
-          class="quick__item"
+      <van-grid class="quick" :border="false" :column-num="5">
+        <van-grid-item
           v-for="quick in state.quickList"
           :key="quick.text"
           :icon="quick.image"
           :text="quick.text"
         />
-      </div>
+      </van-grid>
     </header>
 
     <s-gap class="gap" />
@@ -120,7 +119,6 @@
 </template>
 
 <script setup>
-import SIconTag from '@/components/SIconTag'
 import SGap from '@/components/SGap'
 import SCard from '@/components/SCard'
 import SProductCard from '@/components/SProductCard'
@@ -129,7 +127,6 @@ import { computed, reactive, ref } from 'vue'
 export default {
   name: 'HomePage',
   components: {
-    SIconTag,
     SGap,
     SCard,
     SProductCard
@@ -372,17 +369,6 @@ export const time = ref(12000000)
 
   &__item {
     height: 150px;
-  }
-}
-
-.quick {
-  padding: 4px 12px;
-  display: grid;
-  grid-template-columns: repeat(5, 20%);
-  grid-template-rows: repeat(2, auto);
-
-  &__item {
-    padding: 4px 0;
   }
 }
 
