@@ -15,4 +15,4 @@
 |minapp-wechat|微信小程序|`微信原生技术`|待开始:alarm_clock:|
 |dashboard-react|管理后台|`React`|待开始:alarm_clock:|
 |pc-svelte|pc端网站|`svelte`|待开始:alarm_clock:|
-|server-deno|服务端|`Deno`|待开始:alarm_clock:|
+|server-deno|服务端|`Deno`|进行中:triumph:|
