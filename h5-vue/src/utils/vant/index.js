@@ -10,7 +10,8 @@ import {
   Sticky,
   Tag,
   Grid,
-  GridItem
+  GridItem,
+  TreeSelect
 } from 'vant'
 
 export default app => {
@@ -26,4 +27,5 @@ export default app => {
   app.use(Tag)
   app.use(Grid)
   app.use(GridItem)
+  app.use(TreeSelect)
 }
