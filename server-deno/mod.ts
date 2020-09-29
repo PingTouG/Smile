@@ -1,16 +1,17 @@
-import { Drash } from './deps.ts';
-import resources from './resources/mod.ts';
-import logger from './logger/mod.ts';
+import { App } from "./deps.ts";
+import { AppArea } from "./areas/app.area.ts";
+import { CorsBuilder } from "./deps.ts";
 
-const server = new Drash.Http.Server({
-    response_output:'application/json',
-    resources,
-    logger
-})
+const app = new App({
+  areas: [AppArea],
+});
 
-server.run({
-    hostname:'localhost',
-    port: 3000
-})
+// 跨域处理
+app.useCors(
+  new CorsBuilder()
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader(),
+);
 
-server.logger.info("Server Run At: http://localhost:3000")
+app.listen();
