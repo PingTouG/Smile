@@ -1,0 +1,11 @@
+{
+    "scripts": {
+      "start": {
+        "cmd": "deno run mod.ts",
+        "desc": "启动服务",
+        "allow": ["net","write","read","plugin"],  
+        "unstable":true,
+        "tsconfig": "tsconfig.json"
+      }
+    }
+}

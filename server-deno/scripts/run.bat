@@ -1,1 +1,0 @@
-deno run --allow-net --allow-write --allow-read --allow-plugin --unstable --config ./tsconfig.json mod.ts
