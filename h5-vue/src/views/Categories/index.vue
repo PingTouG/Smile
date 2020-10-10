@@ -8,11 +8,7 @@
         readonly
       />
     </div>
-    <van-tree-select
-      v-model:main-active-index="active"
-      height="55vw"
-      :items="categoryList"
-    >
+    <van-tree-select v-model:main-active-index="active" :items="categoryList">
       <template #content>
         <van-grid :border="false" :column-num="3" icon-size="48">
           <van-grid-item
@@ -175,5 +171,3 @@ export const categoryList = [
   }
 ]
 </script>
-
-<style lang="less" scoped></style>
