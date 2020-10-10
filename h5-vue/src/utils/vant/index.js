@@ -11,7 +11,14 @@ import {
   Tag,
   Grid,
   GridItem,
-  TreeSelect
+  TreeSelect,
+  Checkbox,
+  CheckboxGroup,
+  Stepper,
+  SwipeCell,
+  Button,
+  SubmitBar,
+  Empty
 } from 'vant'
 
 export default app => {
@@ -28,4 +35,11 @@ export default app => {
   app.use(Grid)
   app.use(GridItem)
   app.use(TreeSelect)
+  app.use(Checkbox)
+  app.use(CheckboxGroup)
+  app.use(Stepper)
+  app.use(SwipeCell)
+  app.use(Button)
+  app.use(SubmitBar)
+  app.use(Empty)
 }
