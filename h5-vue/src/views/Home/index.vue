@@ -13,7 +13,7 @@
             <van-search
               placeholder="请输入搜索关键词"
               input-align="center"
-              background="#1989fa"
+              background="transparent"
               shape="round"
               readonly
             />

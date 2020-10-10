@@ -279,7 +279,7 @@ export const onSubmit = () => {
 
 .header {
   padding: 12px;
-  background-image: @gradient-blue;
+  background-color: @primary;
   color: #fff;
   display: flex;
   align-items: center;
@@ -292,7 +292,7 @@ export const onSubmit = () => {
 
 .content {
   &__count {
-    background-image: @gradient-blue;
+    background-color: @primary;
     color: #fff;
     padding: 0 12px 56px 12px;
     border-radius: 0 0 12px 12px;
