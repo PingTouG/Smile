@@ -6,6 +6,15 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
+      path: '/login',
+      name: 'Login',
+      meta: {
+        title: '登录'
+      },
+      component: () =>
+        import(/* webpackChunkName: 'Login' */ '@/views/User/Login')
+    },
+    {
       path: '/',
       component: BasisLayout,
       children: routes

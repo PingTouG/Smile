@@ -18,7 +18,11 @@ import {
   SwipeCell,
   Button,
   SubmitBar,
-  Empty
+  Empty,
+  Form,
+  Field,
+  Divider,
+  NavBar
 } from 'vant'
 
 export default app => {
@@ -42,4 +46,8 @@ export default app => {
   app.use(Button)
   app.use(SubmitBar)
   app.use(Empty)
+  app.use(Form)
+  app.use(Field)
+  app.use(Divider)
+  app.use(NavBar)
 }
