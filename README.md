@@ -4,7 +4,7 @@
 
 ## 版本
 
->状态：待开始:alarm_clock:、进行中:hourglass_flowing_sand:、暂停:triumph:、完成:tada:
+>状态：待开始:alarm_clock:、进行中:hourglass_flowing_sand:、暂停:lock:、完成:tada:
 
 |目录|版本说明|技术栈|状态|
 | ---- | ---- | ---- | ---- |
@@ -15,5 +15,5 @@
 |minapp-wechat|微信小程序|`微信原生技术`|待开始:alarm_clock:|
 |dashboard-react|管理后台|`React`|待开始:alarm_clock:|
 |pc-svelte|pc端网站|`svelte`|待开始:alarm_clock:|
-|server-deno|服务端|`Deno`|进行中:triumph:|
+|server-deno|服务端|`Deno`|暂停:lock:|
 |server-go|服务端|`Go`|进行中:hourglass_flowing_sand:|
