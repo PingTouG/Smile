@@ -1,8 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"server/config"
+	"server/controller"
+	"server/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,17 +12,13 @@ func main() {
 	config := config.AppConfig{}
 	config.GetConfig()
 
-	router := gin.Default()
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello World",
-		})
-	})
+	model.Connect(config.Db)
 
-	app := &http.Server{
-		Addr:    ":" + config.Server.Port,
-		Handler: router,
-	}
+	server := gin.New()
+	server.Use(gin.Logger())
+	server.Use(gin.Recovery())
 
-	app.ListenAndServe()
+	controller.Router(server)
+
+	server.Run(config.Server.Host + ":" + config.Server.Port)
 }

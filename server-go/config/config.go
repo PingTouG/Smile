@@ -9,11 +9,20 @@ import (
 // AppConfig 程序配置
 type AppConfig struct {
 	Server ServerConfig
+	Db     DbConfig
 }
 
 // ServerConfig 服务配置
 type ServerConfig struct {
+	Host string
 	Port string
+}
+
+// DbConfig 数据库配置
+type DbConfig struct {
+	Host     string
+	Port     string
+	Database string
 }
 
 // GetConfig 获取配置信息
