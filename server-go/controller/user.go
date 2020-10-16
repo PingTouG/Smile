@@ -2,7 +2,9 @@ package controller
 
 import (
 	"net/http"
+	"server/config"
 	"server/service"
+	"server/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -11,6 +13,12 @@ import (
 // UserController 用户控制器
 type UserController struct {
 	service service.UserService
+}
+
+// PhoneLoginParams 手机号登录参数
+type PhoneLoginParams struct {
+	Phone string `form:"phone"`
+	Code  string `form:"code"`
 }
 
 // Add 添加用户
@@ -45,5 +53,40 @@ func (user UserController) GetList(ctx *gin.Context) {
 		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
 	} else {
 		SetOkJSON(ctx, users)
+	}
+}
+
+// SendCode 发送验证码
+func (user UserController) SendCode(ctx *gin.Context) {
+	phone := ctx.Param("phone")
+
+	if users, err := user.service.SendCode(phone); err != nil {
+		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+	} else {
+		SetOkJSON(ctx, users)
+	}
+}
+
+// PhoneLogin 手机号登录
+func (user UserController) PhoneLogin(ctx *gin.Context) {
+	var form PhoneLoginParams
+	if ctx.ShouldBind(&form) == nil {
+		if user, err := user.service.PhoneLogin(form.Phone, form.Code); err != nil {
+			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		} else {
+			config := config.AppConfig{}
+			config.GetConfig()
+			if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID.Hex()); err != nil {
+				SetErrorJSON(ctx, http.StatusInternalServerError, "服务器错误,请稍后重试")
+			} else {
+				SetOkJSON(ctx, gin.H{
+					"user":  user,
+					"token": token,
+				})
+			}
+
+		}
+	} else {
+		SetErrorJSON(ctx, http.StatusInternalServerError, "参数错误")
 	}
 }

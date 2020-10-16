@@ -16,6 +16,8 @@ func Router(router *gin.Engine) {
 			users.POST("/add", userController.Add)
 			users.DELETE("/:id", userController.Remove)
 			users.GET("/", userController.GetList)
+			users.POST("/send-code/:phone", userController.SendCode)
+			users.POST("/phone-login", userController.PhoneLogin)
 		}
 	}
 }
