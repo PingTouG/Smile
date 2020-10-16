@@ -5,3 +5,4 @@ db:
   host: localhost
   port: 27017
   database: smile
+salt: SMILE_SALT

@@ -10,6 +10,7 @@ import (
 type AppConfig struct {
 	Server ServerConfig
 	Db     DbConfig
+	Salt   string
 }
 
 // ServerConfig 服务配置
