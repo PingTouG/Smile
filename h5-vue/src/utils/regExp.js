@@ -1,1 +1,1 @@
-export const phone = /^1[3456789]\d{9}$/
+export const phoneRegExp = /^1[3456789]\d{9}$/
