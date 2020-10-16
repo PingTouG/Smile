@@ -3,13 +3,13 @@
   <van-form class="form" @submit="onSubmit">
     <template v-if="isPhoneLogin">
       <van-field
-        v-model="form.phone"
+        v-model="form.phoneForm.phone"
         placeholder="请输入手机号"
         :rules="rules.phone"
         clearable
       />
       <van-field
-        v-model="form.code"
+        v-model="form.phoneForm.code"
         placeholder="请输入短信验证码"
         :rules="rules.code"
         center
@@ -20,6 +20,7 @@
             class="send-code__button"
             size="mini"
             type="primary"
+            :disabled="!enableSendCode"
             v-show="countDown === 0"
             @click="onSendCode"
           >
@@ -43,13 +44,13 @@
     </template>
     <template v-else>
       <van-field
-        v-model="form.username"
+        v-model="form.userForm.username"
         placeholder="请输入账号"
         :rules="rules.username"
         clearable
       />
       <van-field
-        v-model="form.password"
+        v-model="form.userForm.password"
         type="password"
         placeholder="请输入密码"
         :rules="rules.password"
@@ -60,6 +61,7 @@
       <van-button
         color="linear-gradient(to right, #8E2DE2, #1989fa)"
         native-type="submit"
+        :loading="loading"
         round
         block
       >
@@ -103,37 +105,36 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import qq from '@/assets/images/user/qq.png'
 import wechat from '@/assets/images/user/wechat.png'
-import { phone } from '@/utils/regExp.js'
+import { phoneRegExp } from '@/utils/regExp'
 import { useRouter } from 'vue-router'
+import { phoneLogin, login, sendCode } from '@/api/user'
+import { tokenStorage, userStorage } from '@/utils/storage'
 
 export default {
   name: 'Login'
 }
 
 const router = useRouter()
-export const onBack = () => {
-  router.back()
-}
+export const onBack = () => router.back()
 
 export const isPhoneLogin = ref(true)
 export const onModeTrigger = () => {
   isPhoneLogin.value = !isPhoneLogin.value
 }
 
-export const countDown = ref(0)
-export const onSendCode = () => {
-  countDown.value = 60000
-}
-
 export const form = reactive({
-  username: '',
-  password: ''
+  phoneForm: {
+    phone: '',
+    code: ''
+  },
+  userForm: {
+    username: '',
+    password: ''
+  }
 })
-
-export const onSubmit = () => {}
 
 export const rules = {
   username: [
@@ -157,7 +158,7 @@ export const rules = {
       trigger: 'submit'
     },
     {
-      pattern: phone,
+      pattern: phoneRegExp,
       message: '请输入正确的手机号',
       trigger: 'submit'
     }
@@ -174,6 +175,43 @@ export const rules = {
       trigger: 'submit'
     }
   ]
+}
+
+export const enableSendCode = computed(
+  () => form.phoneForm.phone && phoneRegExp.test(form.phoneForm.phone)
+)
+export const loading = ref(false)
+export const countDown = ref(0)
+export const onSendCode = async () => {
+  try {
+    await sendCode(form.phoneForm.phone)
+    countDown.value = 60000
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const onSubmit = async () => {
+  let method = phoneLogin
+  let payload = form.phoneForm
+
+  if (!isPhoneLogin.value) {
+    method = login
+    payload = form.userForm
+  }
+
+  try {
+    loading.value = true
+
+    const {
+      data: { user, token }
+    } = await method(payload)
+
+    tokenStorage.set(token)
+    userStorage.set(user)
+  } finally {
+    loading.value = false
+  }
 }
 
 export const loginWays = {
