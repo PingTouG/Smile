@@ -20,13 +20,11 @@ module.exports = {
   devServer: {
     port: 8080,
     proxy: {
-      '/api': {
-        target: process.env.VUE_APP_API_BASE_URL,
+      [process.env.VUE_APP_API_BASE_URL]: {
+        target: `http://localhost:3000`,
         ws: false,
         changeOrigin: true
       }
-    },
-    // 内网穿透配置
-    disableHostCheck: true
+    }
   }
 }
