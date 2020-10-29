@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { tokenStorage } from './storage'
+import storage, { TOKEN_KEY } from './storage'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { Notify } from 'vant'
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
   config => {
     NProgress.start()
 
-    const token = tokenStorage.get()
+    const token = storage.get(TOKEN_KEY)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }

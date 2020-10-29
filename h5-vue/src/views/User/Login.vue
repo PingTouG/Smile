@@ -111,7 +111,7 @@ import wechat from '@/assets/images/user/wechat.png'
 import { phoneRegExp } from '@/utils/regExp'
 import { useRouter } from 'vue-router'
 import { phoneLogin, login, sendCode } from '@/api/user'
-import { tokenStorage, userStorage } from '@/utils/storage'
+import storage, { TOKEN_KEY, USER_KEY } from '@/utils/storage'
 
 export default {
   name: 'Login'
@@ -207,8 +207,9 @@ export const onSubmit = async () => {
       data: { user, token }
     } = await method(payload)
 
-    tokenStorage.set(token)
-    userStorage.set(user)
+    storage.set(TOKEN_KEY, token)
+    storage.set(USER_KEY, user)
+    router.back()
   } finally {
     loading.value = false
   }

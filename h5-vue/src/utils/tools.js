@@ -44,3 +44,6 @@ export const getQuery = url => {
 
   return query
 }
+
+// 是否为空
+export const isNull = payload => payload === undefined || payload === null
