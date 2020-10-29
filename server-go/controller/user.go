@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"server/config"
+	"server/model"
 	"server/service"
 	"server/utils"
 
@@ -18,6 +19,12 @@ type UserController struct {
 type PhoneLoginParams struct {
 	Phone string `form:"phone"`
 	Code  string `form:"code"`
+}
+
+// LoginParams 账号密码登录参数
+type LoginParams struct {
+	Username string `form:"username"`
+	Password string `form:"password"`
 }
 
 // Add 添加用户
@@ -67,21 +74,39 @@ func (user UserController) PhoneLogin(ctx *gin.Context) {
 	var form PhoneLoginParams
 	if ctx.ShouldBind(&form) == nil {
 		if user, err := user.service.PhoneLogin(form.Phone, form.Code); err != nil {
-			SetErrorJSON(ctx, http.StatusInternalServerError, "验证码错误")
+			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
 		} else {
-			config := config.AppConfig{}
-			config.GetConfig()
-			if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID); err != nil {
-				SetErrorJSON(ctx, http.StatusInternalServerError, "服务器错误,请稍后重试")
-			} else {
-				SetOkJSON(ctx, gin.H{
-					"user":  user,
-					"token": token,
-				})
-			}
-
+			loginSuccess(ctx, user)
 		}
 	} else {
 		SetErrorJSON(ctx, http.StatusInternalServerError, "参数错误")
+	}
+}
+
+// Login 账号密码登录
+func (user UserController) Login(ctx *gin.Context) {
+	var form LoginParams
+	if ctx.ShouldBind(&form) == nil {
+		if user, err := user.service.Login(form.Username, form.Password); err != nil {
+			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		} else {
+			loginSuccess(ctx, user)
+		}
+	} else {
+		SetErrorJSON(ctx, http.StatusInternalServerError, "参数错误")
+	}
+}
+
+// loginSuccess 登录成功
+func loginSuccess(ctx *gin.Context, user model.User) {
+	config := config.AppConfig{}
+	config.GetConfig()
+	if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID); err != nil {
+		SetErrorJSON(ctx, http.StatusInternalServerError, "服务器错误,请稍后重试")
+	} else {
+		SetOkJSON(ctx, gin.H{
+			"user":  user,
+			"token": token,
+		})
 	}
 }

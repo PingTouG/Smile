@@ -32,7 +32,7 @@ func init() {
 func (user User) Add() (err error) {
 	_, err = userDB.InsertOne(context.TODO(), user)
 
-	return err
+	return
 }
 
 // Remove 删除
@@ -40,7 +40,7 @@ func (user User) Remove() (err error) {
 	id, err := primitive.ObjectIDFromHex(user.ID)
 	_, err = userDB.DeleteOne(context.TODO(), bson.M{"_id": id})
 
-	return err
+	return
 }
 
 // Update 更新
@@ -84,13 +84,21 @@ func (user User) UpadteCode(phone string, code string) (err error) {
 }
 
 // PhoneLogin 手机号登录
-func (user User) PhoneLogin(phone string, code string) (User, error) {
+func (user User) PhoneLogin(phone string, code string) (err error) {
 	filter := bson.M{"phone": phone, "verificationCode": code}
-	err := userDB.FindOne(context.TODO(), filter).Decode(&user)
+	err = userDB.FindOne(context.TODO(), filter).Decode(&user)
 
 	if err == nil {
 		user.UpadteCode(phone, "")
 	}
 
-	return user, err
+	return err
+}
+
+// Login 账号密码登录
+func (user User) Login(username string, password string) (err error) {
+	filter := bson.M{"username": username, "password": password}
+	err = userDB.FindOne(context.TODO(), filter).Decode(&user)
+
+	return
 }

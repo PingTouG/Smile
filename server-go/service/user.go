@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"server/model"
@@ -53,5 +54,22 @@ func (service UserService) SendCode(phone string) (code string, err error) {
 
 // PhoneLogin 手机号登录
 func (service UserService) PhoneLogin(phone string, code string) (model.User, error) {
-	return service.Model.PhoneLogin(phone, code)
+	err := service.Model.PhoneLogin(phone, code)
+
+	if err != nil {
+		err = errors.New("验证码错误")
+	}
+
+	return service.Model, err
+}
+
+// Login 账号密码登录
+func (service UserService) Login(username string, password string) (model.User, error) {
+	err := service.Model.Login(username, password)
+
+	if err != nil {
+		err = errors.New("账号或密码错误")
+	}
+
+	return service.Model, err
 }

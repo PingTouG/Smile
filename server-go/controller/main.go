@@ -18,6 +18,7 @@ func UseRouter(router *gin.Engine) {
 			users.GET("/", userController.GetList)
 			users.POST("/send-code/:phone", userController.SendCode)
 			users.POST("/phone-login", userController.PhoneLogin)
+			users.POST("/login", userController.Login)
 		}
 	}
 }
