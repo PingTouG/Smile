@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Router 路由
-func Router(router *gin.Engine) {
+// UseRouter 路由
+func UseRouter(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
 	{
 		users := v1.Group("/users")

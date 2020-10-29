@@ -15,7 +15,7 @@ func main() {
 	server.Use(gin.Logger())
 	server.Use(gin.Recovery())
 
-	controller.Router(server)
+	controller.UseRouter(server)
 
 	server.Run(config.Server.Host + ":" + config.Server.Port)
 }
