@@ -7,7 +7,6 @@ import (
 	"server/utils"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // UserController 用户控制器
@@ -34,11 +33,7 @@ func (user UserController) Add(ctx *gin.Context) {
 
 // Remove 删除用户
 func (user UserController) Remove(ctx *gin.Context) {
-	if id, err := primitive.ObjectIDFromHex(ctx.Param("id")); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
-	} else {
-		user.service.Model.ID = id
-	}
+	user.service.Model.ID = ctx.Param("id")
 
 	if err := user.service.Remove(); err != nil {
 		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
@@ -72,11 +67,11 @@ func (user UserController) PhoneLogin(ctx *gin.Context) {
 	var form PhoneLoginParams
 	if ctx.ShouldBind(&form) == nil {
 		if user, err := user.service.PhoneLogin(form.Phone, form.Code); err != nil {
-			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+			SetErrorJSON(ctx, http.StatusInternalServerError, "验证码错误")
 		} else {
 			config := config.AppConfig{}
 			config.GetConfig()
-			if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID.Hex()); err != nil {
+			if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID); err != nil {
 				SetErrorJSON(ctx, http.StatusInternalServerError, "服务器错误,请稍后重试")
 			} else {
 				SetOkJSON(ctx, gin.H{

@@ -32,11 +32,23 @@ func (service UserService) GetList() ([]model.User, error) {
 
 // SendCode 发送验证码
 func (service UserService) SendCode(phone string) (code string, err error) {
+	service.Model.Phone = phone
+	service.Model.GetUserInfo()
+
+	// 未查询到则添加
+	if service.Model.ID == "" {
+		err = service.Add()
+
+		if err != nil {
+			return
+		}
+	}
+
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	code = fmt.Sprintf("%06v", rnd.Int31n(1000000))
 	err = service.Model.UpadteCode(phone, code)
 
-	return code, err
+	return
 }
 
 // PhoneLogin 手机号登录
