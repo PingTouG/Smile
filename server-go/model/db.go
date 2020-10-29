@@ -16,6 +16,13 @@ var (
 	err      error
 )
 
+func init() {
+	config := config.AppConfig{}
+	config.GetConfig()
+
+	Connect(config.Db)
+}
+
 // Connect 连接数据库
 func Connect(config config.DbConfig) {
 	clientOptions := options.Client().ApplyURI("mongodb://" + config.Host + ":" + config.Port)

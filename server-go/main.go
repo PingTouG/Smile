@@ -3,7 +3,6 @@ package main
 import (
 	"server/config"
 	"server/controller"
-	"server/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,8 +10,6 @@ import (
 func main() {
 	config := config.AppConfig{}
 	config.GetConfig()
-
-	model.Connect(config.Db)
 
 	server := gin.New()
 	server.Use(gin.Logger())
