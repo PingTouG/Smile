@@ -112,6 +112,7 @@ import { phoneRegExp } from '@/utils/regExp'
 import { useRouter } from 'vue-router'
 import { phoneLogin, login, sendCode } from '@/api/user'
 import storage, { TOKEN_KEY, USER_KEY } from '@/utils/storage'
+import md5 from 'md5'
 
 export default {
   name: 'Login'
@@ -197,7 +198,8 @@ export const onSubmit = async () => {
 
   if (!isPhoneLogin.value) {
     method = login
-    payload = form.userForm
+    payload = { ...form.userForm }
+    payload.password = md5(payload.password)
   }
 
   try {
