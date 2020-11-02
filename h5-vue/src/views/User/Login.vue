@@ -187,9 +187,7 @@ export const onSendCode = async () => {
   try {
     await sendCode(form.phoneForm.phone)
     countDown.value = 60000
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) {}
 }
 
 export const onSubmit = async () => {
