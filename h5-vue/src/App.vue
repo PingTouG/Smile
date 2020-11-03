@@ -2,7 +2,11 @@
   <router-view />
 </template>
 
-<script setup></script>
+<script setup>
+import { useStore } from 'vuex'
+const store = useStore()
+store.dispatch('getLocation')
+</script>
 
 <style lang="less">
 @import '~@/styles/globals';

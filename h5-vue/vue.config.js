@@ -8,6 +8,11 @@ module.exports = {
       return args
     })
   },
+  configureWebpack: config => {
+    config.externals = {
+      BMap: 'BMap'
+    }
+  },
   css: {
     loaderOptions: {
       less: {

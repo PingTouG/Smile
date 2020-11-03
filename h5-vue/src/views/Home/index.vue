@@ -6,7 +6,7 @@
           <div class="header__location">
             <van-icon name="location-o" />
             <div class="header__location-text">
-              中国
+              {{ city }}
             </div>
           </div>
           <div class="header__search">
@@ -123,6 +123,7 @@ import SGap from '@/components/SGap'
 import SCard from '@/components/SCard'
 import SProductCard from '@/components/SProductCard'
 import { computed, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'HomePage',
@@ -132,6 +133,7 @@ export default {
     SProductCard
   }
 }
+const store = useStore()
 
 const swiperList = [
   '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/151386/13/1277/145520/5f69c22aE12fae89c/3a066831c26c215a.jpg!q70.jpg.dpg',
@@ -298,6 +300,9 @@ export const activityColumn = computed(() =>
   parseInt(activityList.length / activityRow)
 )
 export const time = ref(12000000)
+export const city = computed(() =>
+  store.getters.city ? store.getters.city : '定位中...'
+)
 </script>
 
 <style
