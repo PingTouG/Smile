@@ -19,7 +19,7 @@
             />
           </div>
           <div class="header__message header__message--active">
-            <van-icon name="envelop-o" size="24" />
+            <van-icon name="bell" size="20" />
           </div>
         </div>
       </van-sticky>
@@ -346,10 +346,10 @@ export const city = computed(() =>
     &--active::before {
       content: '';
       position: absolute;
-      top: 0;
-      right: -2px;
-      height: 8px;
-      width: 8px;
+      top: 2px;
+      right: 2px;
+      height: 6px;
+      width: 6px;
       border-radius: 50%;
       background-color: @red;
       z-index: 1;
