@@ -1,17 +1,15 @@
 import { renderRoutes } from 'react-router-config'
-
-import Login from '../views/Login'
-import Home from '../views/Home'
+import {lazy} from 'react'
 
 export default renderRoutes([
   {
     path: '/login',
     exact: true,
-    component: Login,
+    component: lazy(()=> import('../views/Login')),
   },
   {
     path: '/',
     exact: true,
-    component: Home,
+    component: lazy(()=> import('../views/Home')),
   },
 ])
