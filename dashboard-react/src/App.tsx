@@ -1,11 +1,15 @@
 import React from 'react'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import router from './router'
 
 function App() {
   return (
-    <div className="App">
-      <h1>Smile商城后台管理系统</h1>
-    </div>
+    <Router basename="/admin">
+    <Switch>
+      {router}
+    </Switch>
+  </Router>
   );
 }
 
-export default App;
+export default App
