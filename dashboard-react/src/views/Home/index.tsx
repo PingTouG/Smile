@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
-function Home(){
-    return <div>Home</div>
+function Home(): ReactElement {
+  return <div>Home</div>
 }
 
 export default Home
