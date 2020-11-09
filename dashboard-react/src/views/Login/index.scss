@@ -1,0 +1,39 @@
+.page {
+  height: 100vh;
+  box-sizing: border-box;
+  padding-top: 10%;
+  background-image: url('../../assets/images/bg.svg');
+  background-size: 100% 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  &__logo {
+    width: 50px;
+    margin-right: 8px;
+  }
+
+  &__container {
+    padding: 24px;
+    width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 6px;
+  }
+
+  &__form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+}
