@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import router from './router'
-import {Spin} from './antd'
+import {Spin} from 'antd'
 import './styles/app.scss'
 
 function App() {
