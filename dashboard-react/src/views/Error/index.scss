@@ -1,0 +1,14 @@
+.error {
+  padding-top: 200px;
+  text-align: center;
+
+  &__back {
+    margin-top: 24px;
+
+    &-item {
+      margin-right: 12px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+}
