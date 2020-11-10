@@ -20,6 +20,7 @@ type User struct {
 	Phone            string    `form:"phone" json:"phone"`
 	VerificationCode string    `form:"verificationCode" json:"verificationCode" bson:"verificationCode,omitempty"`
 	Avatar           string    `form:"avatar" json:"avatar"`
+	Role             string    `form:"role" json:"role"`
 }
 
 var userDB *mongo.Collection
