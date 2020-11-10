@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"server/controller/admin"
 	"server/controller/app"
 	"server/controller/common"
 
@@ -23,6 +24,17 @@ func UseRouter(router *gin.Engine) {
 				users.POST("/send-code/:phone", userController.SendCode)
 				users.POST("/phone-login", userController.PhoneLogin)
 				users.POST("/login", commonUserController.Login)
+			}
+		}
+
+		adminGroup := v1.Group("/admin")
+		{
+			users := adminGroup.Group("/users")
+			{
+				adminController := admin.UserController{}
+				users.POST("/login", commonUserController.Login)
+				users.POST("/add", adminController.Add)
+				users.DELETE("/:id", adminController.Remove)
 			}
 		}
 	}
