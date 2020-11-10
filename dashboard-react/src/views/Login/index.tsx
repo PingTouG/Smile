@@ -1,11 +1,16 @@
 import React, { ReactElement, useState } from 'react'
 import './index.scss'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Checkbox, Button, Image } from 'antd'
 import logo from '../../assets/images/logo.png'
 import { isRequired, min } from '../../utils/rules'
 import { LoginParams } from '../../types'
+import { login } from '../../api/user'
+import md5 from 'md5'
+import storage, { USER_KEY, TOKEN_KEY } from '../../utils/storage'
 
 function Login(): ReactElement {
+  const router = useHistory()
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
@@ -17,7 +22,11 @@ function Login(): ReactElement {
   const [loading, setLoading] = useState(false)
   const onSubmit = async (values: LoginParams) => {
     try {
-      console.log(values)
+      values.password = md5(values.password)
+      const { user, token } = await login(values)
+      storage.set(USER_KEY, user)
+      storage.set(TOKEN_KEY, token)
+      router.push('/')
       setLoading(true)
     } finally {
       setLoading(false)
