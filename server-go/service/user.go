@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"server/emnus"
 	"server/model"
 	"time"
 )
@@ -38,6 +39,7 @@ func (service UserService) SendCode(phone string) (code string, err error) {
 
 	// 未查询到则添加
 	if service.Model.ID == "" {
+		service.Model.Role = emnus.RoleNormal
 		err = service.Add()
 
 		if err != nil {
