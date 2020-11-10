@@ -7,10 +7,15 @@ export const LAST_PAGE_KEY = 'SMILE_ADMIN_LAST_PAGE'
 const storage = {
   get: (key: string): unknown | null => {
     const data = window.localStorage.getItem(key)
-    if (data !== null) {
-      return JSON.parse(data)
-    } else {
-      return null
+
+    try {
+      if (data !== null) {
+        return JSON.parse(data)
+      } else {
+        return null
+      }
+    } catch {
+      return data
     }
   },
   set: (key: string, data: unknown): void => {
