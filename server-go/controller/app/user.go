@@ -1,4 +1,4 @@
-package controller
+package appcontroller
 
 import (
 	"net/http"
@@ -32,9 +32,9 @@ func (user UserController) Add(ctx *gin.Context) {
 	ctx.ShouldBind(&user.service.Model)
 
 	if err := user.service.Add(); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 	} else {
-		SetOkJSON(ctx, nil)
+		ctx.JSON(http.StatusOK, gin.H{"data": nil, "message": "添加用户成功"})
 	}
 }
 
@@ -43,18 +43,18 @@ func (user UserController) Remove(ctx *gin.Context) {
 	user.service.Model.ID = ctx.Param("id")
 
 	if err := user.service.Remove(); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 	} else {
-		SetOkJSON(ctx, nil)
+		ctx.JSON(http.StatusOK, gin.H{"data": nil, "message": "删除用户"})
 	}
 }
 
 // GetList 获取用户列表
 func (user UserController) GetList(ctx *gin.Context) {
 	if users, err := user.service.GetList(); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 	} else {
-		SetOkJSON(ctx, users)
+		ctx.JSON(http.StatusOK, gin.H{"data": users, "message": nil})
 	}
 }
 
@@ -63,9 +63,9 @@ func (user UserController) SendCode(ctx *gin.Context) {
 	phone := ctx.Param("phone")
 
 	if users, err := user.service.SendCode(phone); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 	} else {
-		SetOkJSON(ctx, users)
+		ctx.JSON(http.StatusOK, gin.H{"data": users, "message": nil})
 	}
 }
 
@@ -74,12 +74,12 @@ func (user UserController) PhoneLogin(ctx *gin.Context) {
 	var form PhoneLoginParams
 	if ctx.ShouldBind(&form) == nil {
 		if user, err := user.service.PhoneLogin(form.Phone, form.Code); err != nil {
-			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+			ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 		} else {
 			loginSuccess(ctx, user)
 		}
 	} else {
-		SetErrorJSON(ctx, http.StatusInternalServerError, "参数错误")
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "参数错误", "data": nil})
 	}
 }
 
@@ -88,12 +88,12 @@ func (user UserController) Login(ctx *gin.Context) {
 	var form LoginParams
 	if ctx.ShouldBind(&form) == nil {
 		if user, err := user.service.Login(form.Username, form.Password); err != nil {
-			SetErrorJSON(ctx, http.StatusInternalServerError, err.Error())
+			ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 		} else {
 			loginSuccess(ctx, user)
 		}
 	} else {
-		SetErrorJSON(ctx, http.StatusInternalServerError, "参数错误")
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "参数错误", "data": nil})
 	}
 }
 
@@ -102,11 +102,11 @@ func loginSuccess(ctx *gin.Context, user model.User) {
 	config := config.AppConfig{}
 	config.GetConfig()
 	if token, err := utils.CreateToken([]byte(config.Salt), config.Salt, user.ID); err != nil {
-		SetErrorJSON(ctx, http.StatusInternalServerError, "服务器错误,请稍后重试")
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "服务器错误,请稍后重试", "data": nil})
 	} else {
-		SetOkJSON(ctx, gin.H{
+		ctx.JSON(http.StatusOK, gin.H{"data": gin.H{
 			"user":  user,
 			"token": token,
-		})
+		}, "message": nil})
 	}
 }

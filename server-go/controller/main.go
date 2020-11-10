@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"net/http"
+	appcontroller "server/controller/app"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,25 +10,18 @@ import (
 func UseRouter(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
 	{
-		users := v1.Group("/users")
+		app := v1.Group("")
 		{
-			userController := UserController{}
-			users.POST("/add", userController.Add)
-			users.DELETE("/:id", userController.Remove)
-			users.GET("/", userController.GetList)
-			users.POST("/send-code/:phone", userController.SendCode)
-			users.POST("/phone-login", userController.PhoneLogin)
-			users.POST("/login", userController.Login)
+			users := app.Group("/users")
+			{
+				userController := appcontroller.UserController{}
+				users.POST("/add", userController.Add)
+				users.DELETE("/:id", userController.Remove)
+				users.GET("/", userController.GetList)
+				users.POST("/send-code/:phone", userController.SendCode)
+				users.POST("/phone-login", userController.PhoneLogin)
+				users.POST("/login", userController.Login)
+			}
 		}
 	}
-}
-
-// SetOkJSON 设置成功响应
-func SetOkJSON(ctx *gin.Context, data interface{}) {
-	ctx.JSON(http.StatusOK, gin.H{"data": data, "message": nil})
-}
-
-// SetErrorJSON 设置失败响应
-func SetErrorJSON(ctx *gin.Context, code int, message string) {
-	ctx.JSON(code, gin.H{"message": message, "data": nil})
 }
