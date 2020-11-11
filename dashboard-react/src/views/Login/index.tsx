@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { createRef, ReactElement, useEffect, useState } from 'react'
 import './index.scss'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Checkbox, Button, Image } from 'antd'
@@ -7,7 +7,8 @@ import { isRequired, min } from '../../utils/rules'
 import { LoginParams } from '../../types'
 import { login } from '../../api/user'
 import md5 from 'md5'
-import storage, { USER_KEY, TOKEN_KEY } from '../../utils/storage'
+import storage, { USER_KEY, TOKEN_KEY, REMEMBER_KEY } from '../../utils/storage'
+import { FormInstance } from 'antd/lib/form'
 
 function Login(): ReactElement {
   const router = useHistory()
@@ -18,17 +19,33 @@ function Login(): ReactElement {
   const tailLayout = {
     wrapperCol: { offset: 4, span: 20 },
   }
+  const formRef = createRef<FormInstance>()
+
+  useEffect(() => {
+    const remember = storage.get(REMEMBER_KEY)
+    if (remember) {
+      formRef.current?.setFieldsValue(remember)
+    }
+  })
 
   const [loading, setLoading] = useState(false)
   const onSubmit = async (values: LoginParams) => {
     try {
-      values.password = md5(values.password)
-      const { user, token } = await login(values)
+      const payload = { ...values }
+      payload.password = md5(payload.password)
+      setLoading(true)
+      const { user, token } = await login(payload)
+      setLoading(false)
+      // 记住密码
+      if (values.remember) {
+        storage.set(REMEMBER_KEY, values)
+      } else {
+        storage.remove(REMEMBER_KEY)
+      }
       storage.set(USER_KEY, user)
       storage.set(TOKEN_KEY, token)
       router.push('/')
-      setLoading(true)
-    } finally {
+    } catch {
       setLoading(false)
     }
   }
@@ -41,7 +58,12 @@ function Login(): ReactElement {
       </div>
       <div className="page__container">
         <div className="page__form">
-          <Form {...layout} requiredMark={false} onFinish={onSubmit}>
+          <Form
+            {...layout}
+            ref={formRef}
+            requiredMark={false}
+            onFinish={onSubmit}
+          >
             <Form.Item
               label="账号"
               name="username"
@@ -56,7 +78,7 @@ function Login(): ReactElement {
             >
               <Input.Password placeholder="请输入密码" />
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
               <Checkbox>记住密码</Checkbox>
             </Form.Item>
             <Form.Item {...tailLayout}>

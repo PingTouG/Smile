@@ -3,6 +3,7 @@ import { isNull } from './tools'
 export const USER_KEY = 'SMILE_ADMIN_USER_INFO'
 export const TOKEN_KEY = 'SMILE_ADMIN_TOKEN'
 export const LAST_PAGE_KEY = 'SMILE_ADMIN_LAST_PAGE'
+export const REMEMBER_KEY = 'REMEMBER_KEY'
 
 const storage = {
   get: (key: string): unknown | null => {
