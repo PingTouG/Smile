@@ -1,5 +1,6 @@
 import { renderRoutes } from 'react-router-config'
 import { lazy } from 'react'
+import Layout from '../layouts'
 
 export default renderRoutes([
   {
@@ -9,7 +10,6 @@ export default renderRoutes([
   },
   {
     path: '/',
-    exact: true,
-    component: lazy(() => import('../views/Home')),
+    component: Layout,
   },
 ])

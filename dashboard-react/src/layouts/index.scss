@@ -1,0 +1,25 @@
+@import '../styles//vars';
+
+.layout {
+  height: 100vh;
+
+  &__sider {
+    background-color: $main;
+
+    &-header {
+      margin: 16px;
+      display: flex;
+    }
+  }
+
+  &__header {
+    background-color: #fff;
+  }
+
+  &__title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 0 8px;
+  }
+}
