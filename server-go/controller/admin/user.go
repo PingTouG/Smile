@@ -12,12 +12,17 @@ import (
 // UserController 用户控制器
 type UserController struct {
 	service service.UserService
+	common  common.UserController
+}
+
+// Login 登录
+func (user UserController) Login(ctx *gin.Context) {
+	user.common.Login(ctx, emnus.RoleAdmin)
 }
 
 // Add 添加用户
 func (user UserController) Add(ctx *gin.Context) {
-	common := common.UserController{}
-	common.Add(ctx, emnus.RoleAdmin)
+	user.common.Add(ctx, emnus.RoleAdmin)
 }
 
 // Remove 删除用户

@@ -66,8 +66,8 @@ func (service UserService) PhoneLogin(phone string, code string) (model.User, er
 }
 
 // Login 账号密码登录
-func (service UserService) Login(username string, password string) (model.User, error) {
-	err := service.Model.Login(username, password)
+func (service UserService) Login(username string, password string, role string) (model.User, error) {
+	err := service.Model.Login(username, password, role)
 
 	if err != nil {
 		err = errors.New("账号或密码错误")

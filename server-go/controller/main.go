@@ -3,7 +3,6 @@ package controller
 import (
 	"server/controller/admin"
 	"server/controller/app"
-	"server/controller/common"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,8 +11,6 @@ import (
 func UseRouter(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
 	{
-		commonUserController := common.UserController{}
-
 		appGroup := v1.Group("/app")
 		{
 			users := appGroup.Group("/users")
@@ -23,7 +20,7 @@ func UseRouter(router *gin.Engine) {
 				users.GET("/", userController.GetList)
 				users.POST("/send-code/:phone", userController.SendCode)
 				users.POST("/phone-login", userController.PhoneLogin)
-				users.POST("/login", commonUserController.Login)
+				users.POST("/login", userController.Login)
 			}
 		}
 
@@ -32,7 +29,7 @@ func UseRouter(router *gin.Engine) {
 			users := adminGroup.Group("/users")
 			{
 				adminController := admin.UserController{}
-				users.POST("/login", commonUserController.Login)
+				users.POST("/login", adminController.Login)
 				users.POST("/add", adminController.Add)
 				users.DELETE("/:id", adminController.Remove)
 			}

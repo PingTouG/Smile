@@ -17,10 +17,10 @@ type UserController struct {
 }
 
 // Login 账号密码登录
-func (user UserController) Login(ctx *gin.Context) {
+func (user UserController) Login(ctx *gin.Context, role string) {
 	var form types.LoginParams
 	if ctx.ShouldBind(&form) == nil {
-		if user, err := user.service.Login(form.Username, form.Password); err != nil {
+		if user, err := user.service.Login(form.Username, form.Password, role); err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error(), "data": nil})
 		} else {
 			LoginSuccess(ctx, user)

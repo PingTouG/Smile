@@ -97,8 +97,8 @@ func (user User) PhoneLogin(phone string, code string) (err error) {
 }
 
 // Login 账号密码登录
-func (user User) Login(username string, password string) (err error) {
-	filter := bson.M{"username": username, "password": password}
+func (user User) Login(username string, password string, role string) (err error) {
+	filter := bson.M{"username": username, "password": password, "role": role}
 	err = userDB.FindOne(context.TODO(), filter).Decode(&user)
 
 	return
