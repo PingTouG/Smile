@@ -26,7 +26,7 @@ function Login(): ReactElement {
     if (remember) {
       formRef.current?.setFieldsValue(remember)
     }
-  })
+  }, [])
 
   const [loading, setLoading] = useState(false)
   const onSubmit = async (values: LoginParams) => {
@@ -36,12 +36,14 @@ function Login(): ReactElement {
       setLoading(true)
       const { user, token } = await login(payload)
       setLoading(false)
+
       // 记住密码
       if (values.remember) {
         storage.set(REMEMBER_KEY, values)
       } else {
         storage.remove(REMEMBER_KEY)
       }
+
       storage.set(USER_KEY, user)
       storage.set(TOKEN_KEY, token)
       router.push('/')
