@@ -1,0 +1,11 @@
+@import './vars';
+
+.ant-menu-dark {
+  &.ant-menu {
+    background-color: $main;
+  }
+
+  & .ant-menu-inline.ant-menu-sub {
+    background: #1f1f1f;
+  }
+}

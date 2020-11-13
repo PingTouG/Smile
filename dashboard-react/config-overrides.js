@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { override, fixBabelImports } = require('customize-cra')
 
 module.exports = override(
