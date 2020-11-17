@@ -43,3 +43,10 @@ export interface SMenuItemProps {
     AntdIconProps & RefAttributes<HTMLSpanElement>
   >
 }
+
+export interface MenuInfo {
+  key: React.Key
+  keyPath: React.Key[]
+  item: React.ReactInstance
+  domEvent: React.MouseEvent<HTMLElement>
+}
