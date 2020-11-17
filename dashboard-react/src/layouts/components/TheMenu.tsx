@@ -52,7 +52,7 @@ const getMenu = ({ path, routes, meta }: SRouteConfig) => {
 
 const TheMenu = (props: SMenuProps): ReactElement => {
   return (
-    <Menu theme="dark" mode="inline" {...props}>
+    <Menu {...props}>
       {props.routes.map((menu: SRouteConfig) => getMenu(menu))}
     </Menu>
   )
