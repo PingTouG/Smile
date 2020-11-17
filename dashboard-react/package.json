@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
-    "antd": "^4.8.0",
+    "antd": "^4.8.4",
     "axios": "^0.21.0",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
