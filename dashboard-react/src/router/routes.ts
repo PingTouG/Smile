@@ -10,6 +10,15 @@ const routes: Array<RouteConfig> = [
         text: '数据看板',
         Icon: RadarChartOutlined,
       },
+      breadcrumb: [
+        {
+          path: '/dashboard',
+          text: '首页',
+        },
+        {
+          text: '数据看板',
+        },
+      ],
     },
     component: lazy(() => import('../views/Dashboard')),
   },
@@ -21,6 +30,15 @@ const routes: Array<RouteConfig> = [
         text: '用户管理',
         Icon: UserOutlined,
       },
+      breadcrumb: [
+        {
+          path: '/dashboard',
+          text: '首页',
+        },
+        {
+          text: '用户管理',
+        },
+      ],
     },
     component: lazy(() => import('../views/User')),
   },
